@@ -46,6 +46,7 @@
 
       /* app */
       @import url("http://fonts.cdnfonts.com/css/gill-sans");
+      @omport url("https://fonts.googleapis.com/css?family=Calibri:400,700,400italic,700italic");
 
       main {
         position: relative;
@@ -84,6 +85,18 @@
         left: 262px;
       }
 
+      article#text {
+        color: black;
+        font-size: 22px;
+        font-family: Calibri;
+        position: absolute;
+        top: 149px;
+        width: 1060px;
+        height: 430px;
+        left: 73px;
+        letter-spacing: 0px;
+      }
+
       .hidden {
         display: none;
       }
@@ -100,14 +113,17 @@
         id="original"
         class="hidden"
         onclick="swapImg('#blank', '#original');"
-        src="https://iili.io/c7dbGn.png"
+        src="screen-ct.png"
       />
       <img
         id="blank"
         onclick="swapImg('#original', '#blank');"
-        src="https://iili.io/c7Nmap.png"
+        src="screen-ct-blank.png"
       />
 
+      <article id="text">
+        Dožít se vysokého věku záleží na přístupu k životu.
+      </article>
       <section id="temp">2 / 6 °C</section>
       <section id="bio">BIO 3</section>
       <section id="name">Edita</section>
@@ -116,7 +132,7 @@
     <script>
       const params = new URLSearchParams(window.location.search);
 
-      const fields = ["temp", "bio", "name", "date"];
+      const fields = ["temp", "bio", "name", "date", "text"];
 
       fields.forEach((field) => {
         if (params.get(field))
