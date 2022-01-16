@@ -136,7 +136,7 @@
 
       fields.forEach((field) => {
         if (params.get(field))
-          document.querySelector("#" + field).innerHTML = params.get(field);
+          document.querySelector("#" + field).innerText = params.get(field);
       });
     </script>
   </body>
