@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: 'Take a screenshot'
-        run: ruby screen-today.png
+        run: ruby screen-today.rb
 
       - name: 'Upload screenshot'
         uses: actions/upload-artifact@v2
