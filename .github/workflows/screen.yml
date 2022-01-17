@@ -1,0 +1,20 @@
+name: Screenshot
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Take a screenshot'
+        run: ruby screen-today.png
+
+      - name: 'Upload screenshot'
+        uses: actions/upload-artifact@v2
+        with:
+          path: page.png
+          retention-days: 7
+
