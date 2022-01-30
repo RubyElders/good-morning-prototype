@@ -2,6 +2,9 @@ name: Screenshot
 
 on: workflow_dispatch
 
+env:
+  SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,3 +22,6 @@ jobs:
           path: page.png
           retention-days: 7
 
+      - name: 'Post to #test on custom trigger'
+        run: 'curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C030DNGLEA3 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload'
+        if: ${{ github.event_name == 'workflow_dispatch' }}
