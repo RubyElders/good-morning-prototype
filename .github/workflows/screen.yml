@@ -1,6 +1,9 @@
 name: Screenshot
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 6 * * *'
 
 env:
   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
@@ -25,3 +28,7 @@ jobs:
       - name: 'Post to #test on custom trigger'
         run: 'curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C030DNGLEA3 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload'
         if: ${{ github.event_name == 'workflow_dispatch' }}
+
+      - name: 'Post to #dobre-rano on schedule'
+        run: 'curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C02U77KAHL1 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload'
+        if: ${{ github.event_name == 'schedule' }}
