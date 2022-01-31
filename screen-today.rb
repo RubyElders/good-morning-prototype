@@ -7,12 +7,25 @@ data = JSON.parse(URI.open("https://good-morning-backend.herokuapp.com/today").r
 date = DateTime.now.strftime("%d. %m. %Y")
 url = URI.parse("https://simi.github.io/good-morning-prototype")
 
+text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
+if data['home_alone'] && !data['home_alone'].empty?
+  if data['home_alone'].include?(' — ')
+    topics = data['home_alone'].split(' — ')
+    text += "\n\nDnešní témata Sama doma:\n"
+    topics.each do |topic|
+      text += "► #{topic}\n"
+    end
+  else
+    text += "\n\nDnešní témata Sama doma: #{data['home_alone']}"
+  end
+end
+
 params = {
   temp: "%s / %s °C" % data.values_at("temp_min", "temp_max"),
   bio: "BIO #{data.fetch("bio")}",
   name: data.fetch("name"),
   date: date,
-  text: "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
+  text: text
 }
 
 params = URI.encode_www_form(params)
