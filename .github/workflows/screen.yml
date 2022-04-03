@@ -3,8 +3,8 @@ name: Screenshot
 on:
   workflow_dispatch:
   schedule:
-    # 6:15 CET
-    - cron: '15 5 * * *'
+    # 6:15 CEST
+    - cron: '15 4 * * *'
 
 env:
   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
