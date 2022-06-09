@@ -16,7 +16,7 @@ if data['home_alone'] && !data['home_alone'].empty?
       text += "► #{topic}\n"
     end
   else
-    text += "\n\nDnešní témata Sama doma: #{data['home_alone']}"
+    text += "\n\nDnešní témata Dobrého rána: #{data['home_alone']}" # TODO: update once HA is back
   end
 end
 
