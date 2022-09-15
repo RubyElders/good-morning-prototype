@@ -11,7 +11,7 @@ text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
 if data['home_alone'] && !data['home_alone'].empty?
   if data['home_alone'].include?(' — ')
     topics = data['home_alone'].split(' — ')
-    text += "\n\nDnešní témata Dobrého rána:\n"
+    text += "\n\nDnešní témata Sama doma:\n"
     topics.each do |topic|
       text += "► #{topic}\n"
     end
