@@ -1,15 +1,31 @@
-require 'sinatra'
-require_relative 'holidays'
-require_relative 'national_days'
-require_relative 'bio'
-require_relative 'weather'
-require_relative 'home_alone'
+require 'open-uri'
+require 'nokogiri'
 
-get '/' do
-  "Dobré ráno!"
+class GoodMorning
+
+  TV = 'https://www.ceskatelevize.cz'
+  TV_TODAY = TV + '/tv-program/'
+
+  def today
+    find_topics rescue '' # freestyle
+  end
+
+  private
+
+  def find_topics
+    date = Date.today.strftime('%d.%m.%Y')
+    tv_today = URI.open(TV_TODAY + date + '/').read
+    tv_today_html = Nokogiri::HTML(tv_today)
+
+    link = tv_today_html.css('a').find {|el| el.text == 'Dobré ráno'}
+    return '' if link.nil?
+
+    today = URI.open(TV + link.attributes['href'].value).read
+    today_html = Nokogiri::HTML(today)
+    description_el = today_html.css('div[class^=description] p').first
+    return '' if description_el.nil?
+
+    description_el.text
+  end
 end
 
-get '/today' do
-  content_type :json
-  Holidays.new.today.merge(NationalDays.new.today).merge(bio: Bio.new.today).merge(Weather.new.today).merge(home_alone: HomeAlone.new.today).to_json
-end
