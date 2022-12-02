@@ -1,2 +1,2 @@
-require './good_morning'
+require './server'
 run Sinatra::Application

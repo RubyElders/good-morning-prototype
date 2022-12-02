@@ -3,22 +3,23 @@ require 'open-uri'
 require 'json'
 require 'cgi'
 
-backend_url = ENV.fetch('DR_BACKEND_URL', 'http://localhost:9292')
+backend_url = ENV.fetch('DR_BACKEND_URL')
 
-data = JSON.parse(URI.open("#{backend_url}/today").read)
+data = JSON.parse(URI.open(backend_url).read)
 date = DateTime.now.strftime("%d. %m. %Y")
-url = URI.parse("https://simi.github.io/good-morning-prototype")
+url = URI.parse("https://rubyelders.github.io/good-morning-prototype")
 
 text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
-if data['home_alone'] && !data['home_alone'].empty?
-  if data['home_alone'].include?(' — ')
-    topics = data['home_alone'].split(' — ')
-    text += "\n\nDnešní témata Sama doma:\n"
+if data['content'] && !data['content'].empty?
+  if data['content'].include?(' — ')
+    topics = data['content'].split(' — ')
+    header = data['header']
+    text += "\n\n#{header}\n"
     topics.each do |topic|
       text += "► #{topic}\n"
     end
   else
-    text += "\n\nDnešní témata Sama doma: #{data['home_alone']}"
+    text += "\n\n#{header} #{data['content']}"
   end
 end
 
