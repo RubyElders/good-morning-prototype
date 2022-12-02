@@ -15,59 +15,50 @@ env:
   FREEIMAGE_KEY: ${{ secrets.FREEIMAGE_KEY }}
 
 jobs:
-  build:
+  test-morning:
     runs-on: ubuntu-latest
-
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/screenshot
         with:
-          working-directory: 'server'
-          ruby-version: '3.1'
-          bundler-cache: true
+          dr_url: 'http://localhost:9292/today/good_morning'
+          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          message: 'Dobré ráno!'
 
-      - name: 'Start internal server'
-        working-directory: 'server'
-        run: 'bundle exec rackup -p 9292 &'
-
-      - name: 'Take a good-morning screenshot'
-        if: ${{ (github.event_name == 'workflow_dispatch') || (github.event.schedule == '15 4 * * 1-5') }}
-        env:
-          DR_BACKEND_URL: 'http://localhost:9292/today/good_morning'
-        run: ruby screen-today.rb
-
-      - name: 'Take a home-alone screenshot'
-        if: ${{ (github.event_name == 'workflow_dispatch') || (github.event.schedule == '0 10 * * 1-5') }}
-        env:
-          DR_BACKEND_URL: 'http://localhost:9292/today/home_alone'
-        run: ruby screen-today.rb
-
-      - name: 'Upload screenshot'
-        uses: actions/upload-artifact@v2
+  test-noon:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/screenshot
         with:
-          name: screen.png
-          path: page.png
-          retention-days: 7
+          dr_url: 'http://localhost:9292/today/home_alone'
+          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          message: 'Dobré poledne!'
 
-      - name: 'Post to #test on custom trigger'
-        run: |
-          curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C030DNGLEA3 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload
-          curl -X POST -H 'Content-Type: application/json' -d "{
-              \"text\": \"Dobré ráno! ($(curl -X POST -Fkey=$FREEIMAGE_KEY -Fsource=@page.png -Fformat=txt 'https://freeimage.host/api/1/upload'))\",
-              \"format\": \"plain\",
-              \"displayName\": \"Dobré Ráno BOT 2.0\",
-              \"avatarUrl\": \"https://i.imgur.com/cvp8s19.png\"
-          }" "https://webhooks.t2bot.io/api/v1/matrix/hook/$MATRIX_TEST_HOOK"
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+  schedule-weekday-morning:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.schedule == '15 4 * * 1-5'  }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/screenshot
+        with:
+          dr_url: 'http://localhost:9292/today/good_morning'
+          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          message: 'Dobré ráno!'
 
-      - name: 'Post to #dobre-rano on schedule'
-        run: |
-          curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C02U77KAHL1 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload
-          curl -X POST -H 'Content-Type: application/json' -d "{
-              \"text\": \"Dobré ráno! ($(curl -X POST -Fkey=$FREEIMAGE_KEY -Fsource=@page.png -Fformat=txt 'https://freeimage.host/api/1/upload'))\",
-              \"format\": \"plain\",
-              \"displayName\": \"Dobré Ráno BOT 2.0\",
-              \"avatarUrl\": \"https://i.imgur.com/cvp8s19.png\"
-          }" "https://webhooks.t2bot.io/api/v1/matrix/hook/$MATRIX_GM_HOOK"
-        if: ${{ github.event_name == 'schedule' }}
+  schedule-weekday-noon:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.schedule == '0 10 * * 1-5'  }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/screenshot
+        with:
+          dr_url: 'http://localhost:9292/today/home_alone'
+          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          message: 'Dobré poledne!'
