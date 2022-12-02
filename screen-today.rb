@@ -3,7 +3,9 @@ require 'open-uri'
 require 'json'
 require 'cgi'
 
-data = JSON.parse(URI.open("https://good-morning-backend.herokuapp.com/today").read)
+backend_url = ENV.fetch('DR_BACKEND_URL', 'http://localhost:9292')
+
+data = JSON.parse(URI.open("#{backend_url}/today").read)
 date = DateTime.now.strftime("%d. %m. %Y")
 url = URI.parse("https://simi.github.io/good-morning-prototype")
 
