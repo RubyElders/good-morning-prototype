@@ -61,7 +61,7 @@ jobs:
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/good_morning'
-          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          matrix_hook: ${{ env.MATRIX_GM_HOOK }}
           freeimage_key: ${{ env.FREEIMAGE_KEY }}
           message: 'Dobré ráno!'
 
@@ -73,7 +73,7 @@ jobs:
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/home_alone'
-          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          matrix_hook: ${{ env.MATRIX_GM_HOOK }}
           freeimage_key: ${{ env.FREEIMAGE_KEY }}
           message: 'Dobré poledne!'
 
@@ -85,6 +85,6 @@ jobs:
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/weekend'
-          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          matrix_hook: ${{ env.MATRIX_GM_HOOK }}
           freeimage_key: ${{ env.FREEIMAGE_KEY }}
           message: 'Krásný víkendový den!'
