@@ -7,6 +7,8 @@ on:
     - cron: '15 4 * * 1-5'
     # 12:00 CEST Mon-Fri
     - cron: '0 10 * * 1-5'
+    # 6:15 CEST Sat-Sun
+    - cron: '15 4 * * SAT,SUN'
 
 env:
   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
@@ -39,6 +41,18 @@ jobs:
           freeimage_key: ${{ env.FREEIMAGE_KEY }}
           message: 'Dobré poledne!'
 
+  test-weekend:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/screenshot
+        with:
+          dr_url: 'http://localhost:9292/today/weekend'
+          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          message: 'Krásný víkendový den!'
+
   schedule-weekday-morning:
     runs-on: ubuntu-latest
     if: ${{ github.event.schedule == '15 4 * * 1-5'  }}
@@ -62,3 +76,15 @@ jobs:
           matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
           freeimage_key: ${{ env.FREEIMAGE_KEY }}
           message: 'Dobré poledne!'
+
+  schedule-weekend-morning:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.schedule == '15 4 * * SAT,SUN'  }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/screenshot
+        with:
+          dr_url: 'http://localhost:9292/today/weekend'
+          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
+          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          message: 'Krásný víkendový den!'
