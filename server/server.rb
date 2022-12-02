@@ -3,8 +3,14 @@ require_relative 'holidays'
 require_relative 'national_days'
 require_relative 'bio'
 require_relative 'weather'
-require_relative 'home_alone'
-require_relative 'good_morning'
+require_relative 'show'
+
+WEEKEND_SHOWS = {
+  'Toulavá kamera' => 'Kam nás zavede Toulavá kamera?',
+  /Československý filmový týdeník/ => 'Československý filmový týdeník nabízí:',
+  /Toulky Českem/ => 'Dnešní témata pořadu Toulky Českem:',
+  'Studio 6 víkend' => 'Co nás čeká ve Studiu 6 o víkendu:'
+}
 
 get '/' do
   "Dobré ráno!"
@@ -18,7 +24,7 @@ get '/today/home_alone' do
     NationalDays.new.today,
     {bio: Bio.new.today},
     Weather.new.today,
-    {content: HomeAlone.new.today},
+    {content: Show.new.today('Sama doma')},
     {header: 'Dnešní témata Sama doma:'}
   ).to_json
 end
@@ -31,7 +37,28 @@ get '/today/good_morning' do
     NationalDays.new.today,
     {bio: Bio.new.today},
     Weather.new.today,
-    {content: GoodMorning.new.today},
+    {content: Show.new.today('Dobré ráno')},
     {header: 'Dnešní témata Dobrého rána:'}
+  ).to_json
+end
+
+get '/today/weekend' do
+  content_type :json
+
+  begin
+    show = WEEKEND_SHOWS.lazy.map do |show, header|
+      { content: Show.new.today(show), header: header }
+    end.filter { |hash| hash[:content] }.next
+  rescue StopIteration
+    show = { content: '', header: "Nic nedávaj :'(" }
+  end
+
+  {}.merge(
+    Holidays.new.today.merge,
+    NationalDays.new.today,
+    {bio: Bio.new.today},
+    Weather.new.today,
+    {content: show[:content]},
+    {header: show[:header]}
   ).to_json
 end
