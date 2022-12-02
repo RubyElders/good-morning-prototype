@@ -1,0 +1,54 @@
+name: 'Takes DR screenshot'
+description: 'read the name again'
+inputs:
+  dr_url:
+    description: 'URL to render'
+    required: true
+  matrix_hook:
+    description: 'marix hook url'
+    required: true
+  freeimage_key:
+    description: 'freeimage.host API key'
+    required: true
+  message:
+    description: 'message to send to matrix'
+    required: true
+
+
+runs:
+  using: composite
+  steps:
+  - uses: ruby/setup-ruby@v1
+    with:
+      working-directory: 'server'
+      ruby-version: '3.1'
+      bundler-cache: true
+
+  - name: 'Start internal server'
+    shell: bash
+    working-directory: 'server'
+    run: 'bundle exec rackup -p 9292 &'
+
+  - name: 'Take a screenshot'
+    shell: bash
+    env:
+      DR_BACKEND_URL: ${{ inputs.dr_url }}
+    run: ruby screen-today.rb
+
+  - name: 'Upload screenshot'
+    uses: actions/upload-artifact@v2
+    with:
+      name: screen.png
+      path: page.png
+      retention-days: 7
+
+  - name: 'Post to matrix'
+    shell: bash
+    run: |
+      curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C030DNGLEA3 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload
+      curl -X POST -H 'Content-Type: application/json' -d "{
+          \"text\": \"${{ inputs.message }} ($(curl -X POST -Fkey=${{ inputs.freeimage_key }} -Fsource=@page.png -Fformat=txt 'https://freeimage.host/api/1/upload'))\",
+          \"format\": \"plain\",
+          \"displayName\": \"Dobré Ráno BOT 2.0\",
+          \"avatarUrl\": \"https://i.imgur.com/cvp8s19.png\"
+      }" "https://webhooks.t2bot.io/api/v1/matrix/hook/${{ inputs.matrix_hook }}"
