@@ -9,9 +9,8 @@ WEEKEND_SHOWS = {
   'Toulavá kamera' => 'Kam nás zavede Toulavá kamera?',
   /Československý filmový týdeník/ => 'Československý filmový týdeník nabízí:',
   /Toulky Českem/ => 'Dnešní témata pořadu Toulky Českem:',
-  'Studio 6 víkend' => 'Co nás čeká ve Studiu 6 o víkendu:',
-  'Krásné živé památky' => 'Kudy nás dnes provede Mirek Vladyka:'
-
+  'Krásné živé památky' => 'Kudy nás dnes provede Mirek Vladyka:',
+  'Studio 6 víkend' => 'Co nás čeká ve Studiu 6 o víkendu:'
 }
 
 get '/' do
