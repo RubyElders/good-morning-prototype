@@ -34,5 +34,5 @@ params = {
 params = URI.encode_www_form(params)
 url.query = params
 
-screen_cmd = "google-chrome --virtual-time-budget=10000 --hide-scrollbars --headless --screenshot=page.png --window-size=1200,675 '#{url.to_s}'"
+screen_cmd = "google-chrome --virtual-time-budget=10000 --hide-scrollbars --headless=new --screenshot=page.png --window-size=1200,748 '#{url.to_s}' --user-data-dir=/tmp/chrome"
 exec screen_cmd
