@@ -45,7 +45,6 @@ runs:
   - name: 'Post to matrix'
     shell: bash
     run: |
-      curl -F file=@page.png -F"initial_comment=Dobré ráno!" -F channels=C030DNGLEA3 -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload
       curl -X POST -H 'Content-Type: application/json' -d "{
           \"text\": \"${{ inputs.message }} ($(curl -X POST -Fkey=${{ inputs.freeimage_key }} -Fsource=@page.png -Fformat=txt 'https://freeimage.host/api/1/upload'))\",
           \"format\": \"plain\",
