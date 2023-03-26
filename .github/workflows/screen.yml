@@ -79,7 +79,7 @@ jobs:
 
   schedule-weekend-morning:
     runs-on: ubuntu-latest
-    if: ${{ github.event.schedule == '15 4 * * SAT,SUN'  }}
+    #if: ${{ github.event.schedule == '15 4 * * SAT,SUN'  }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/screenshot
