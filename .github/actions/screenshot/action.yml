@@ -48,6 +48,5 @@ runs:
       curl -X POST -H 'Content-Type: application/json' -d "{
           \"text\": \"${{ inputs.message }} ($(curl -X POST -Fkey=${{ inputs.freeimage_key }} -Fsource=@page.png -Fformat=txt 'https://freeimage.host/api/1/upload'))\",
           \"format\": \"plain\",
-          \"displayName\": \"Dobré Ráno BOT 2.0\",
-          \"avatarUrl\": \"https://i.imgur.com/cvp8s19.png\"
+          \"displayName\": \"Dobré Ráno BOT 2.0\"
       }" "https://webhooks.t2bot.io/api/v1/matrix/hook/${{ inputs.matrix_hook }}"
