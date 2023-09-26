@@ -3,7 +3,7 @@ require 'nokogiri'
 
 class Weather
 
-  PRAGUE = 'https://www.meteocentrum.cz/predpoved-pocasi/cz/6250/praha'
+  PRAGUE = 'https://www.meteocentrum.cz/predpoved-pocasi/praha'
 
   def today
     {
@@ -29,6 +29,6 @@ class Weather
   end
 
   def weather
-    @weather ||= parsed_html.css('#snippet--days .tabs__temp').first.text
+    @weather ||= parsed_html.css("div.hp-day-select > ul > li.weather-tab.weather-tab--active > a > div.weather-tab-degrees").first.text
   end
 end
