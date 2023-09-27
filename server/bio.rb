@@ -3,10 +3,10 @@ require 'nokogiri'
 
 class Bio
 
-  PRAGUE = 'https://www.meteocentrum.cz/predpoved-pocasi/bio-ovzdusi/6250/praha'
+  PRAGUE = "https://www.meteocentrum.cz/kvalita-ovzdusi/praha"
 
   def today
-    bio.first&.text
+    bio
   end
 
   private
@@ -22,6 +22,6 @@ class Bio
   end
 
   def bio
-    parsed_html.css('#snippet--days .ico--bio_lg')
+    parsed_html.css('.air-quality')[0]["data-quality"]
   end
 end
