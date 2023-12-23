@@ -25,8 +25,9 @@ jobs:
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/good_morning'
-          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
-          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          matrix_token: ${{ secrets.MATRIX_TOKEN }}
+          matrix_server: 'https://matrix-client.matrix.org'
+          matrix_room: '!yjmiWUSqAYlQdTtTcL:matrix.org'
           message: 'Dobré ráno!'
 
   test-noon:
@@ -37,8 +38,9 @@ jobs:
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/home_alone'
-          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
-          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          matrix_token: ${{ secrets.MATRIX_TOKEN }}
+          matrix_server: 'https://matrix-client.matrix.org'
+          matrix_room: '!yjmiWUSqAYlQdTtTcL:matrix.org'
           message: 'Dobré poledne!'
 
   test-weekend:
@@ -49,42 +51,46 @@ jobs:
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/weekend'
-          matrix_hook: ${{ env.MATRIX_TEST_HOOK }}
-          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          matrix_token: ${{ secrets.MATRIX_TOKEN }}
+          matrix_server: 'https://matrix-client.matrix.org'
+          matrix_room: '!yjmiWUSqAYlQdTtTcL:matrix.org'
           message: 'Krásný víkendový den!'
 
   schedule-weekday-morning:
     runs-on: ubuntu-latest
-    if: ${{ github.event.schedule == '15 4 * * 1-5'  }}
+    if: ${{ (github.event.schedule == '15 4 * * 1-5') }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/good_morning'
-          matrix_hook: ${{ env.MATRIX_GM_HOOK }}
-          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          matrix_token: ${{ secrets.MATRIX_TOKEN }}
+          matrix_server: 'https://matrix-client.matrix.org'
+          matrix_room: '!OOZqZKcQxqhJfuVyGd:matrix.org'
           message: 'Dobré ráno!'
 
   schedule-weekday-noon:
     runs-on: ubuntu-latest
-    if: ${{ github.event.schedule == '0 10 * * 1-5'  }}
+    if: ${{ (github.event.schedule == '0 10 * * 1-5') }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/home_alone'
-          matrix_hook: ${{ env.MATRIX_GM_HOOK }}
-          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          matrix_token: ${{ secrets.MATRIX_TOKEN }}
+          matrix_server: 'https://matrix-client.matrix.org'
+          matrix_room: '!OOZqZKcQxqhJfuVyGd:matrix.org'
           message: 'Dobré poledne!'
 
   schedule-weekend-morning:
     runs-on: ubuntu-latest
-    if: ${{ github.event.schedule == '15 4 * * SAT,SUN'  }}
+    if: ${{ (github.event.schedule == '15 4 * * SAT,SUN') }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/screenshot
         with:
           dr_url: 'http://localhost:9292/today/weekend'
-          matrix_hook: ${{ env.MATRIX_GM_HOOK }}
-          freeimage_key: ${{ env.FREEIMAGE_KEY }}
+          matrix_token: ${{ secrets.MATRIX_TOKEN }}
+          matrix_server: 'https://matrix-client.matrix.org'
+          matrix_room: '!OOZqZKcQxqhJfuVyGd:matrix.org'
           message: 'Krásný víkendový den!'
