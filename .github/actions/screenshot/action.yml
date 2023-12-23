@@ -4,16 +4,18 @@ inputs:
   dr_url:
     description: 'URL to render'
     required: true
-  matrix_hook:
-    description: 'marix hook url'
+  matrix_token:
+    description: 'marix token'
     required: true
-  freeimage_key:
-    description: 'freeimage.host API key'
+  matrix_server:
+    description: 'matrix home server'
+    required: true
+  matrix_room:
+    description: 'matrix room'
     required: true
   message:
     description: 'message to send to matrix'
     required: true
-
 
 runs:
   using: composite
@@ -45,8 +47,5 @@ runs:
   - name: 'Post to matrix'
     shell: bash
     run: |
-      curl -X POST -H 'Content-Type: application/json' -d "{
-          \"text\": \"${{ inputs.message }} ($(curl -X POST -Fkey=${{ inputs.freeimage_key }} -Fsource=@page.png -Fformat=txt 'https://freeimage.host/api/1/upload'))\",
-          \"format\": \"plain\",
-          \"displayName\": \"Dobré Ráno BOT 2.0\"
-      }" "https://webhooks.t2bot.io/api/v1/matrix/hook/${{ inputs.matrix_hook }}"
+      ./matrix.sh --homeserver="${{ inputs.matrix_server }}" --token="${{ inputs.matrix_token }}" --room='${{ inputs.matrix_room }}' --send "${{ inputs.message }}"
+      ./matrix.sh --homeserver="${{ inputs.matrix_server }}" --token="${{ inputs.matrix_token }}" --room='${{ inputs.matrix_room }}' --send --file=./page.png --image
