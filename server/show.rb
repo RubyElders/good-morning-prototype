@@ -1,15 +1,10 @@
 require 'open-uri'
 require 'nokogiri'
-require 'cgi'
-
-# TODO: remove, fixed in ruby 3.2
-# https://github.com/ruby/ruby/commit/fa2e1b67e548cb5653b66909a2bc3d6b9eae98e3
-Net::HTTPTemporaryRedirect = Net::HTTPPermanentRedirect
+require 'net/http'
 
 class Show
   TV = 'https://www.ceskatelevize.cz'
   TV_TODAY = TV + '/tv-program/'
-  PROXY = 'http://www.a.dukovany.cz/index.php?q=%s&hl=2c1'
 
   def today(show_title)
     find_topics(show_title) #rescue false # freestyle
@@ -19,13 +14,13 @@ class Show
 
   def find_topics(show_title)
     date = Date.today.strftime('%d.%m.%Y')
-    tv_today = URI.open(PROXY % CGI.escape(TV_TODAY + date + '/')).read
+    tv_today = URI.open(TV_TODAY + date + '/').read
     tv_today_html = Nokogiri::HTML(tv_today)
 
     link = tv_today_html.css('a').find {|el| el.text.match?(show_title)}
     return false if link.nil?
 
-    today = URI.open(PROXY % CGI.escape(TV + link.attributes['href'].value)).read
+    today = URI.open(TV + link.attributes['href'].value).read
     today_html = Nokogiri::HTML(today)
     description_el = today_html.css('div[class^=description] p').first
     return false if description_el.nil?

@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    cgi (0.4.1)
     json (2.6.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
@@ -33,7 +32,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  cgi
   json
   nokogiri
   puma
