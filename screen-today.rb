@@ -8,11 +8,12 @@ backend_url = ENV.fetch('DR_BACKEND_URL')
 data = JSON.parse(URI.open(backend_url).read)
 date = DateTime.now.strftime("%d. %m. %Y")
 url = URI.parse("https://rubyelders.github.io/good-morning-prototype")
+delimiter = / — | - /
 
 text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
 if data['content'] && !data['content'].empty?
-  if data['content'].include?(' — ')
-    topics = data['content'].split(' — ')
+  if data['content'].match?(delimiter)
+    topics = data['content'].split(delimiter)
     header = data['header']
     text += "\n\n#{header}\n"
     topics.each do |topic|
