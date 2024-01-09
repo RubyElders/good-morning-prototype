@@ -22,7 +22,7 @@ class Show
 
     today = URI.open(TV + link.attributes['href'].value).read
     today_html = Nokogiri::HTML(today)
-    description_el = today_html.css('div[class^=description] p').first
+    description_el = today_html.css('div[class^=content] p').first
     return false if description_el.nil?
 
     description_el.text
