@@ -29,13 +29,13 @@ runs:
   - name: 'Start internal server'
     shell: bash
     working-directory: 'server'
-    run: 'bin/rackup -p 9292 &'
+    run: 'bin/rackup -p 9292 -D'
 
   - name: 'Take a screenshot'
     shell: bash
     env:
       DR_BACKEND_URL: ${{ inputs.dr_url }}
-    run: ruby screen-today.rb
+    run: "sleep 10 && ruby screen-today.rb"
 
   - name: 'Upload screenshot'
     uses: actions/upload-artifact@v4
