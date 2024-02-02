@@ -18,7 +18,7 @@ env:
 
 jobs:
   test-morning:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - uses: actions/checkout@v3
@@ -31,7 +31,7 @@ jobs:
           message: 'Dobré ráno!'
 
   test-noon:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - uses: actions/checkout@v3
@@ -44,7 +44,7 @@ jobs:
           message: 'Dobré poledne!'
 
   test-weekend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - uses: actions/checkout@v3
@@ -57,7 +57,7 @@ jobs:
           message: 'Krásný víkendový den!'
 
   schedule-weekday-morning:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ (github.event.schedule == '15 4 * * 1-5') }}
     steps:
       - uses: actions/checkout@v3
@@ -70,7 +70,7 @@ jobs:
           message: 'Dobré ráno!'
 
   schedule-weekday-noon:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ (github.event.schedule == '0 10 * * 1-5') }}
     steps:
       - uses: actions/checkout@v3
@@ -83,7 +83,7 @@ jobs:
           message: 'Dobré poledne!'
 
   schedule-weekend-morning:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ (github.event.schedule == '15 4 * * SAT,SUN') }}
     steps:
       - uses: actions/checkout@v3
