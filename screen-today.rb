@@ -2,6 +2,7 @@ require 'uri'
 require 'open-uri'
 require 'json'
 require 'cgi'
+require 'timeout'
 
 backend_url = ENV.fetch('DR_BACKEND_URL')
 
@@ -35,5 +36,10 @@ params = {
 params = URI.encode_www_form(params)
 url.query = params
 
+print url.to_s
+
 screen_cmd = "google-chrome --virtual-time-budget=10000 --hide-scrollbars --headless=new --screenshot=page.png --window-size=1200,748 '#{url.to_s}' --user-data-dir=/tmp/chrome"
-exec screen_cmd
+
+Timeout::timeout(120) do
+  exec screen_cmd
+end
