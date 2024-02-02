@@ -38,7 +38,7 @@ url.query = params
 
 print url.to_s
 
-screen_cmd = "google-chrome --virtual-time-budget=10000 --hide-scrollbars --headless=new --screenshot=page.png --window-size=1200,748 '#{url.to_s}' --user-data-dir=/tmp/chrome"
+screen_cmd = "google-chrome --hide-scrollbars --headless --screenshot=page.png --window-size=1200,748 '#{url.to_s}' --user-data-dir=/tmp/chrome"
 
 Timeout::timeout(120) do
   exec screen_cmd
