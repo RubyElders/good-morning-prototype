@@ -29,6 +29,6 @@ class Weather
   end
 
   def weather
-    @weather ||= parsed_html.css("div.hp-day-select > ul > li.weather-tab.weather-tab--active > a > div.weather-tab-degrees").first.text
+    @weather ||= parsed_html.css("li.weather-tab--active div.weather-tab-degrees").first.text
   end
 end
