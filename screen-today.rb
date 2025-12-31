@@ -12,6 +12,9 @@ url = URI.parse("https://rubyelders.github.io/good-morning-prototype")
 delimiter = / — | - /
 
 text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
+if data['event'] && !data['event'].empty?
+  text += "\n\n#{data['event']}"
+end
 if data['content'] && !data['content'].empty?
   if data['content'].match?(delimiter)
     topics = data['content'].split(delimiter)

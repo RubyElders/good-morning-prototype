@@ -1,6 +1,7 @@
 require 'sinatra'
 require_relative 'holidays'
 require_relative 'national_days'
+require_relative 'seasonal_events'
 require_relative 'bio'
 require_relative 'weather'
 require_relative 'show'
@@ -24,6 +25,7 @@ get '/today/home_alone' do
   {}.merge(
     Holidays.new.today,
     NationalDays.new.today,
+    SeasonalEvents.new.today,
     {bio: Bio.new.today},
     Weather.new.today,
     {content: Show.new.today('Sama doma')},
@@ -37,6 +39,7 @@ get '/today/good_morning' do
   {}.merge(
     Holidays.new.today.merge,
     NationalDays.new.today,
+    SeasonalEvents.new.today,
     {bio: Bio.new.today},
     Weather.new.today,
     {content: Show.new.today('Dobré ráno')},
@@ -58,6 +61,7 @@ get '/today/weekend' do
   {}.merge(
     Holidays.new.today.merge,
     NationalDays.new.today,
+    SeasonalEvents.new.today,
     {bio: Bio.new.today},
     Weather.new.today,
     {content: show[:content]},
