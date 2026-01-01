@@ -13,7 +13,7 @@ delimiter = / — | - /
 
 text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
 if data['event'] && !data['event'].empty?
-  text += "\n\n#{data['event']}"
+  text += "\n\nAktuální doporučení: #{data['event']}"
 end
 if data['content'] && !data['content'].empty?
   if data['content'].match?(delimiter)
