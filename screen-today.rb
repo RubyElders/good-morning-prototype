@@ -11,10 +11,11 @@ date = DateTime.now.strftime("%d. %m. %Y")
 url = URI.parse("https://rubyelders.github.io/good-morning-prototype")
 delimiter = / — | - /
 
-text = "Dnes je #{data.fetch('national')}.\n\nMěsíc #{data.fetch('moon')}."
+text = "Dnes je #{data.fetch('national')}."
 if data['event'] && !data['event'].empty?
-  text += "\n\nAktuální doporučení: #{data['event']}"
+  text += " Tip: #{data['event']}"
 end
+text += "\n\nMěsíc #{data.fetch('moon')}."
 if data['content'] && !data['content'].empty?
   if data['content'].match?(delimiter)
     topics = data['content'].split(delimiter)
